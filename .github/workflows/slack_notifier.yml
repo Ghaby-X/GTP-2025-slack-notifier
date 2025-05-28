@@ -1,0 +1,24 @@
+name: Slack Notification on Push
+
+on: 
+  push:
+    branches: [ main, master ]
+
+jobs:
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: general
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_ICON: https://github.com/actions.png
+        SLACK_MESSAGE: 'New push to ${{ github.repository }} :rocket:'
+        SLACK_TITLE: 'GitHub Push Notification'
+        SLACK_USERNAME: GitHub Actions
+        SLACK_FOOTER: 'Powered by GitHub Actions'
